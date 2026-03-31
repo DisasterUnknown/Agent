@@ -12,21 +12,6 @@ src models wraps external chat embedding and reward models behind small Python c
 src utils contains utilities for embeddings persistence PDF loading document chunking web search HTML scraping context construction and database population
 main py is the command line entry point that wires everything together
 
-## Configuration files
-
-There are two main YAML configuration files
-
-config yaml is a shared template used by different people and should not be ignored in version control
-config_dev yaml is for local development settings and is ignored through the git ignore file so each contributor can keep private keys and local paths outside version control
-
-Typical configuration values include
-
-API keys and secret tokens
-model names and endpoints
-search provider settings
-database and vector store configuration
-feature flags and debug options
-
 ## Required Python packages
 
 Install the dependencies from `requirements.txt` so the code can run in a fresh environment
@@ -42,35 +27,27 @@ pyyaml is used to load YAML configuration
 
 If you add new imports in the code you should also update `requirements.txt` so a new user can install everything from one place
 
-### Install in one command
+### Install dependencies
 
-Create and activate a virtual environment then run a single pip command that reads from the requirements file so every dependency is installed together
-
-```text
-pip install all packages listed in requirements txt
-```
-
-## Setup and run commands
-
-The following steps describe how to prepare a fresh environment for this project
-
-Create a Python virtual environment using the built in venv module and activate it for your platform
-Install dependencies inside the active environment using pip
+Create and activate a virtual environment then run this single pip command
 
 ```powershell
 python -m pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-Prepare configuration
+## Setup and run commands
 
-Edit `config/config.yaml` and put your API keys and any local overrides in that file
-The loader in `config/load_config.py` looks for `config/config.yaml`
+Create a Python virtual environment and install dependencies
+
+Edit `config/config.yaml` with your API keys model names and any local path settings
 
 Prepare data for RAG
 
 Put your input PDF files under `src/data/pdf`
 On first run you should build the vector database so retrieval has content to search
+
+If you want to rebuild the vector database you can use the `--update` or `--reset` flags described below
 
 Run modes
 
@@ -99,9 +76,9 @@ Interactive input details
 When running without arguments the program reads from stdin and expects you to type one prompt per line
 Type `exit` or `bye` to stop the loop
 
-Configured paths used by the database
+Database paths used by the code
 
-By default `config/config_dev.yaml` sets `paths.data_dir` to `src/data/pdf` and `paths.db_dir` to `src/data/chroma_db`
+By default `config/config.yaml` sets `paths.data_dir` to `src/data/pdf` and `paths.db_dir` to `src/data/chroma_db`
 During `--update` and `--reset` the code loads PDFs from `src/data/pdf` and stores vectors persistently under `src/data/chroma_db`
 
 Key modules and what they do
