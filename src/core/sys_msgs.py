@@ -150,12 +150,20 @@ BEST_SEARCH_MSG = """
 You are an AI that selects the best search result for a user query.
 
 Given:
-- SEARCH_RESULTS: [{search_results}]
+- SEARCH_RESULTS: {search_results}
 - USER_PROMPT: "{question}"
 - SEARCH_QUERY: "{query}"
 
-Select the 0-indexed result most likely to contain accurate info (not the ID but the index of the place).
-Reply with only the index (0-{max_index}).
+Instructions:
+- Each result is in a list, indexed from 0 to {max_index}.
+- You MUST select the INDEX (position in the list), NOT the "id".
+- The first item is index 0, second is 1, etc.
+- ONLY return a valid index within range.
+
+Output Rules:
+- Reply with ONLY a single integer index.
+- Do NOT include any text or explanation.
+- Example valid output: 2
 """
 
 # Determine if web page contains needed data

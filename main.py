@@ -16,6 +16,9 @@ print("\n\nEnter 'exit' or 'bye' to quit")
 
 while True:
     user_prompt = input("User: ")
+    if not user_prompt:
+        print("Response: Please enter something...\n")
+        continue
     if (user_prompt.lower() != "exit" and user_prompt.lower() != "bye"):
         agent.super_agent(user_prompt)
         print("")

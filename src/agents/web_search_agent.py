@@ -12,19 +12,21 @@ def webSearchAgent(user_prompt: str):
     page_link = None
     context_found = False
     model = QwenChatLLM()
+    count = 0
     
     search_query = webSearchQueryGeneration(user_prompt, model)
     if search_query[0] == '"':
         search_query = search_query[1:-1]
         
     search_results = duckduckgo_search(search_query)
-    while not context_found and len(search_results) > 0:
+    while not context_found and len(search_results) > 0 and count < 10:
         best_result = best_search_results(user_prompt, search_results, search_query, model)
         try:
+            count += 1
             page_link = search_results[best_result]['link']
         except:
-            print("\nFailed to do web search trying again....")
-            continue
+            print("Failed to do web search trying again....")
+            best_result = 0
         
         page_text = scrape_webpage(page_link)
         search_results.pop(best_result)
