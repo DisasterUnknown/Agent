@@ -1,6 +1,10 @@
 __pycache__/
 *.pyc
 .venv/
+Diagram.drawio
+Diagram.drawio.png
+.$Diagram.drawio.bkp
+/src/data/chroma_db/
 env/
 venv/
 config/config_dev.yaml
